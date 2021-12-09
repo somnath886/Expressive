@@ -1,7 +1,7 @@
 {
   "name": "expressive",
   "version": "1.0.0",
-  "description": "A nodejs framework built on top of expressjs with firebase services",
+  "description": "A nodejs framework built on top of expressjs",
   "main": "src/app.ts",
   "scripts": {
     "compile": "tsc && node dist/app.js",
@@ -10,7 +10,7 @@
   "keywords": [
     "ExpressJS",
     "NodeJS",
-    "Firebase",
+    "MongoDB",
     "Typescript",
     "Dependency-Injection"
   ],
