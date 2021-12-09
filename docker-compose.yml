@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  app:
+    container_name: expressive
+    stdin_open: true
+    tty: true
+    restart: always
+    build: .
+    environment:
+      - PORT=3000
+      - HOST=http://localhost
+      - MONGODB_HOST=mongodb://host.docker.internal
+      - MONGODB_PORT=27017
+      - MONGODB_DATABASE=expressive-application
+    ports:
+      - "3000:3000"
