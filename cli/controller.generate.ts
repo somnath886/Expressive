@@ -1,5 +1,6 @@
 import fs from "fs";
 import controllerTypes from "../src/routes/types";
+import checkName from "./utils/checkname";
 
 const generateTemplate = (name: string) => {
   return `
@@ -16,7 +17,7 @@ export default class ${name[0].toUpperCase() + name.slice(1)}Controller {
 };
 
 export default function generateController(controllerName: string) {
-  if (!checkIfControllerNameTaken(controllerName)) {
+  if (!checkName(controllerName, controllerTypes)) {
     fs.writeFile(
       `src/routes/${controllerName.toLowerCase()}.controller.ts`,
       generateTemplate(controllerName),
@@ -38,13 +39,4 @@ export default function generateController(controllerName: string) {
   } else {
     console.log("controller name taken!");
   }
-}
-
-function checkIfControllerNameTaken(name: string) {
-  for (const key in controllerTypes) {
-    if (name.toUpperCase() === key.split("_")[0].toUpperCase()) {
-      return true;
-    }
-  }
-  return false;
 }

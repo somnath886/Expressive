@@ -1,9 +1,11 @@
 import fs from "fs";
 
 import serviceTypes from "../src/services/types";
+import checkName from "./utils/checkname";
+import firstUpper from "./utils/firstupper";
 
 export default function generateService(serviceName: string) {
-  if (!checkIfServiceNameTaken(serviceName)) {
+  if (!checkName(serviceName, serviceTypes)) {
     fs.mkdir(`src/services/${serviceName}`, function (err) {
       console.log(err);
     });
@@ -29,9 +31,7 @@ export default function generateService(serviceName: string) {
 }
 
 function createInterface(name: string) {
-  const template = `export default interface I${
-    name[0].toUpperCase() + name.slice(1)
-  }Service {};`;
+  const template = `export default interface I${firstUpper(name)}Service {};`;
 
   fs.writeFileSync(
     `src/services/${name}/${name}.interface.ts`,
@@ -44,14 +44,12 @@ function createClass(name: string) {
   const template = `import "reflect-metadata";
 import { injectable } from "inversify";
 
-import I${
-    name[0].toUpperCase() + name.slice(1)
-  }Service from "./${name}.interface";
+import I${firstUpper(name)}Service from "./${name}.interface";
 
 @injectable()
-export default class ${
-    name[0].toUpperCase() + name.slice(1)
-  }Service implements I${name[0].toUpperCase() + name.slice(1)}Service {};
+export default class ${firstUpper(name)}Service implements I${firstUpper(
+    name
+  )}Service {};
 `;
 
   fs.writeFileSync(
@@ -59,13 +57,4 @@ export default class ${
     template,
     "utf-8"
   );
-}
-
-function checkIfServiceNameTaken(name: string) {
-  for (const key in serviceTypes) {
-    if (name.toUpperCase() === key.split("_")[0].toUpperCase()) {
-      return true;
-    }
-  }
-  return false;
 }
