@@ -74,6 +74,7 @@ export default class AppBootstrap {
     routes: Array<IRouter>
   ) {
     routes.forEach(({ method, path, handlerName }) => {
+      console.log(path);
       const middlewares = MiddlewareObject.filter(
         ({ appliedControllers, appliedMethods }) => {
           const matchControllers = appliedControllers.includes(
@@ -97,7 +98,7 @@ export default class AppBootstrap {
         String(handlerName)
       );
 
-      router[method](`/${path}`, (req, res, next) => {
+      router[method](`${path}`, (req, res, next) => {
         interfacedMiddlewares.forEach((m) => m.use(req, res));
         const promise = Promise.resolve(intercepted(req, res, next));
         promise.then((toSend) => res.send(toSend));
